@@ -18,7 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
@@ -55,7 +54,7 @@ public class Estudante extends Usuario implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cidade", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_estudante_cidade"))
     private Cidade cidade;
-    @OneToMany(mappedBy = "acao_estudante", cascade = CascadeType.ALL, orphanRemoval = true, 
+    @OneToMany(mappedBy = "estudante", cascade = CascadeType.ALL, orphanRemoval = true, 
             fetch = FetchType.LAZY)
     private List<AcaoPosterior> acaoposterior = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
@@ -124,5 +123,13 @@ public class Estudante extends Usuario implements Serializable {
 
     public void setAcaoposterior(List<AcaoPosterior> acaoposterior) {
         this.acaoposterior = acaoposterior;
+    }
+
+    public List<NecessidadeEspecial> getNecessidade() {
+        return necessidade;
+    }
+
+    public void setNecessidade(List<NecessidadeEspecial> necessidade) {
+        this.necessidade = necessidade;
     }
 }

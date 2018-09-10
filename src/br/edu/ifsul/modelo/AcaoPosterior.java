@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -47,7 +46,7 @@ public class AcaoPosterior implements Serializable{
     private Calendar dataacao;
     @NotNull(message = "O estudante deve ser informado")
     @ManyToOne
-    @JoinColumn(name = "acao_estudante", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_estudante_id"))
+    @JoinColumn(name = "estudante_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_estudante_id"))
     private Estudante estudante;
 
     public AcaoPosterior() {
