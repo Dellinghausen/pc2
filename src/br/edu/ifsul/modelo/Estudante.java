@@ -35,16 +35,20 @@ public class Estudante extends Usuario implements Serializable {
     @Column(name = "dataNascimento", nullable = false)
     private Calendar dataNascimento;
     @NotNull(message = "O telefone não pode ser nulo")
+    @NotBlank(message = "O telefone não pode ser em branco")
+    @Length(max = 15, message = "O telefone não pode ter mais que {max} caracteres")
     @Column(name = "telefone", nullable = false)
-    private Integer telefone;
+    private String telefone;
     @NotNull(message = "O curso não pode ser nulo")
     @NotBlank(message = "O curso não pode ser em branco")
     @Length(max = 40, message = "O curso não pode ter mais que {max} caracteres")
     @Column(name = "curso", length = 40, nullable = false)
     private String curso;
-    @NotNull(message = "O telefoneEmergencia não pode ser nulo")
+    @NotNull(message = "O telefone de emergencia não pode ser nulo")
+    @NotBlank(message = "O telefone de emergencia não pode ser em branco")
+    @Length(max = 15, message = "O telefone de emergencia não pode ter mais que {max} caracteres")
     @Column(name = "telefoneEmergencia", nullable = false)
-    private Integer telefoneEmergencia;
+    private String telefoneEmergencia;
     @CPF
     @NotBlank(message = "O cpf não pode ser em branco")
     @Length(max = 14, message = "O cpf não pode ter mais que {max} caracteres")
@@ -52,21 +56,32 @@ public class Estudante extends Usuario implements Serializable {
     private String cpf;
     @NotNull(message = "A cidade deve ser informado")
     @ManyToOne
-    @JoinColumn(name = "cidade", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_estudante_cidade"))
+    @JoinColumn(name = "cidade", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_estudante_cidade"))
     private Cidade cidade;
-    @OneToMany(mappedBy = "estudante", cascade = CascadeType.ALL, orphanRemoval = true, 
+    @OneToMany(mappedBy = "estudante", cascade = CascadeType.ALL, orphanRemoval = true,
             fetch = FetchType.LAZY)
     private List<AcaoPosterior> acaoposterior = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "necessidades",
-            joinColumns = 
-            @JoinColumn(name = "estudante", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = 
-            @JoinColumn(name = "necessidadeespecial", referencedColumnName = "id", nullable = false), 
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"estudante","necessidadeespecial"})}) 
+            joinColumns
+            = @JoinColumn(name = "estudante", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns
+            = @JoinColumn(name = "necessidadeespecial", referencedColumnName = "id", nullable = false),
+            uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"estudante", "necessidadeespecial"})})
     private List<NecessidadeEspecial> necessidade = new ArrayList<>();
 
+
     public Estudante() {
+    }
+
+    public void adicionarAcao(AcaoPosterior obj) {
+        obj.setEstudante(this);
+        this.acaoposterior.add(obj);
+    }
+
+    public void removerAcao(int index) {
+        this.acaoposterior.remove(index);
     }
 
     public Calendar getDataNascimento() {
@@ -77,28 +92,12 @@ public class Estudante extends Usuario implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
-    public Integer getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(Integer telefone) {
-        this.telefone = telefone;
-    }
-
     public String getCurso() {
         return curso;
     }
 
     public void setCurso(String curso) {
         this.curso = curso;
-    }
-
-    public Integer getTelefoneEmergencia() {
-        return telefoneEmergencia;
-    }
-
-    public void setTelefoneEmergencia(Integer telefoneEmergencia) {
-        this.telefoneEmergencia = telefoneEmergencia;
     }
 
     public String getCpf() {
@@ -131,5 +130,21 @@ public class Estudante extends Usuario implements Serializable {
 
     public void setNecessidade(List<NecessidadeEspecial> necessidade) {
         this.necessidade = necessidade;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getTelefoneEmergencia() {
+        return telefoneEmergencia;
+    }
+
+    public void setTelefoneEmergencia(String telefoneEmergencia) {
+        this.telefoneEmergencia = telefoneEmergencia;
     }
 }

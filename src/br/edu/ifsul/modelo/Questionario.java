@@ -12,10 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -45,6 +48,14 @@ public class Questionario implements Serializable {
     @OneToMany(mappedBy = "questionario", cascade = CascadeType.ALL, orphanRemoval = true, 
             fetch = FetchType.LAZY)
     private List<Pergunta> pergunta = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "questionarioaluno",
+            joinColumns = 
+            @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = 
+            @JoinColumn(name = "estudante", referencedColumnName = "id", nullable = false), 
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"estudante","questionarios"})}) 
+    private List<Estudante> respondem = new ArrayList<>();
 
     public Questionario() {
     }
@@ -104,5 +115,13 @@ public class Questionario implements Serializable {
 
     public void setPergunta(List<Pergunta> pergunta) {
         this.pergunta = pergunta;
+    }
+
+    public List<Estudante> getRespondem() {
+        return respondem;
+    }
+
+    public void setRespondem(List<Estudante> respondem) {
+        this.respondem = respondem;
     }
 }

@@ -35,7 +35,7 @@ public class TestePersistirPais {
         
         try {
             Pais p = new Pais();
-            p.setNome("Brasil");
+            p.setNome("Argentina");
             em.getTransaction().begin();
             em.persist(p);
             em.getTransaction().commit();

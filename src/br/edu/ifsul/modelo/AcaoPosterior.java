@@ -24,7 +24,8 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "acaoposterior")
-public class AcaoPosterior implements Serializable{
+public class AcaoPosterior implements Serializable {
+
     @Id
     @SequenceGenerator(name = "seq_acaoposterior", sequenceName = "seq_acaoposterior_id",
             allocationSize = 1)
@@ -37,21 +38,21 @@ public class AcaoPosterior implements Serializable{
     private String titulo;
     @NotNull(message = "A descricao não pode ser nulo")
     @NotBlank(message = "A descricao não pode ser em branco")
-    @Length(max = 40, message = "A descricao não pode ter mais que {max} caracteres")
-    @Column(name = "nome", length = 40, nullable = false)
+    @Length(max = 200, message = "A descricao não pode ter mais que {max} caracteres")
+    @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
     @Temporal(TemporalType.DATE)
     @NotNull(message = "A data não pode ser nulo")
     @Column(name = "dataacao", nullable = false)
     private Calendar dataacao;
-    @NotNull(message = "O estudante deve ser informado")
+    @NotNull(message = "O estudante deve ser informada")
     @ManyToOne
-    @JoinColumn(name = "estudante_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_estudante_id"))
+    @JoinColumn(name = "estudante_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_acaoposterios_estudante"))
     private Estudante estudante;
 
     public AcaoPosterior() {
     }
-    
+
     public Integer getId() {
         return id;
     }

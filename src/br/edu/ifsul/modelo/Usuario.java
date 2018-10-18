@@ -1,6 +1,8 @@
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -49,9 +56,17 @@ public class Usuario implements Serializable {
     @Length(max = 40, message = "O email não pode ter mais que {max} caracteres")
     @Column(name = "email", length = 40, nullable = false)
     private String email;
-    @NotNull(message = "O adm não pode ser nulo")
-    @Column(name = "adm", nullable = false)
-    private Boolean adm;
+    @ManyToMany
+    @JoinTable(name = "permissoes",
+            joinColumns
+            = @JoinColumn(name = "usuario", referencedColumnName = "login", nullable = false),
+            inverseJoinColumns
+            = @JoinColumn(name = "permissao", referencedColumnName = "tipo", nullable = false),
+            uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "UK_permissoes",
+                        columnNames = {"usuario", "permissao"})})
+    private List<Permissao> permissao = new ArrayList<>();
 
     public Usuario() {
     }
@@ -121,11 +136,11 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public Boolean getAdm() {
-        return adm;
+    public List<Permissao> getPermissao() {
+        return permissao;
     }
 
-    public void setAdm(Boolean adm) {
-        this.adm = adm;
+    public void setPermissao(List<Permissao> permissao) {
+        this.permissao = permissao;
     }
 }

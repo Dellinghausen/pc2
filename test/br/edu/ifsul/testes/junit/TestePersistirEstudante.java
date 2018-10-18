@@ -42,11 +42,10 @@ public class TestePersistirEstudante {
             e.setLogin("tiagolopes");
             e.setSenha("123456");
             e.setEmail("tiago_lopes58@msn.com");
-            e.setAdm(true);
             e.setDataNascimento(Calendar.getInstance());
-            e.setTelefone(12345678);
+            e.setTelefone("6515986189");
             e.setCurso("TSPI");
-            e.setTelefoneEmergencia(12345678);
+            e.setTelefoneEmergencia("16519819161");
             e.setCpf("81959796020");
             e.setCidade(em.find(Cidade.class, 2));
             em.getTransaction().begin();

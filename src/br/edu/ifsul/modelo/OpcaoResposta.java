@@ -33,14 +33,10 @@ public class OpcaoResposta implements Serializable {
     @Length(max = 40, message = "A opcao não pode ter mais que {max} caracteres")
     @Column(name = "opcao", length = 40, nullable = false)
     private String opcao;
-    @NotNull(message = "A pergunta deve ser informado")
+    @NotNull(message = "A pergunta deve ser informada")
     @ManyToOne
-    @JoinColumn(name = "pergunta_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_pergunta_id"))
+    @JoinColumn(name = "pergunta_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_opcaoResposta_pergunta"))
     private Pergunta pergunta;
-    @NotNull(message = "O respostacomsescolha deve ser informado")
-    @ManyToOne
-    @JoinColumn(name = "respostacomsescolha_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_respostacomsescolha_id"))
-    private RespostaComEscolha respostacomsescolha;
 
     public OpcaoResposta() {
     }
@@ -92,13 +88,5 @@ public class OpcaoResposta implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public RespostaComEscolha getRespostacomsescolha() {
-        return respostacomsescolha;
-    }
-
-    public void setRespostacomsescolha(RespostaComEscolha respostacomsescolha) {
-        this.respostacomsescolha = respostacomsescolha;
     }
 }

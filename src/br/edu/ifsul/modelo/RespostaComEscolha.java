@@ -1,18 +1,13 @@
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,9 +25,6 @@ public class RespostaComEscolha implements Serializable {
             allocationSize = 1)
     @GeneratedValue(generator = "seq_respostacomescolha", strategy = GenerationType.SEQUENCE)
     private Integer id;
-    @OneToMany(mappedBy = "respostacomsescolha", cascade = CascadeType.ALL, orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private List<OpcaoResposta> opcaoresposta = new ArrayList<>();
     @NotNull(message = "A pergunta deve ser informado")
     @ManyToOne
     @JoinColumn(name = "pergunta_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_pergunta_id"))
@@ -92,13 +84,5 @@ public class RespostaComEscolha implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public List<OpcaoResposta> getOpcaoresposta() {
-        return opcaoresposta;
-    }
-
-    public void setOpcaoresposta(List<OpcaoResposta> opcaoresposta) {
-        this.opcaoresposta = opcaoresposta;
     }
 }

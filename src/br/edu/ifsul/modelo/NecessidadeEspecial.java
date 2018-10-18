@@ -39,8 +39,8 @@ public class NecessidadeEspecial implements Serializable{
     private String nome;
     @NotNull(message = "A descricao não pode ser nulo")
     @NotBlank(message = "A descricao não pode ser em branco")
-    @Length(max = 40, message = "A descricao não pode ter mais que {max} caracteres")
-    @Column(name = "descricao", length = 40, nullable = false)
+    @Length(max = 200, message = "A descricao não pode ter mais que {max} caracteres")
+    @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "necessidades",
