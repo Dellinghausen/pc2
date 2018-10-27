@@ -46,7 +46,7 @@ public class Questionario implements Serializable {
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_questionario_usuario"))
     private Usuario usuario;    
     @OneToMany(mappedBy = "questionario", cascade = CascadeType.ALL, orphanRemoval = true, 
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     private List<Pergunta> pergunta = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionarioaluno",
