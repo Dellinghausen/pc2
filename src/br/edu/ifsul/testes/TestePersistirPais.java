@@ -16,7 +16,7 @@ public class TestePersistirPais {
                 = Persistence.createEntityManagerFactory("PC2_TesteModeloPU");
         EntityManager em = emf.createEntityManager();
         Pais p = new Pais();
-        p.setNome("Argentina");
+        p.setNome("Uruguai");
         em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();

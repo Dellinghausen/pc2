@@ -36,7 +36,8 @@ public class Cidade implements Serializable {
     private String nome;
     @NotNull(message = "O estado deve ser informado")
     @ManyToOne
-    @JoinColumn(name = "estado", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name="fk_cidade_estado"))
+    @JoinColumn(name = "estado", referencedColumnName = "id", nullable = false, 
+            foreignKey = @javax.persistence.ForeignKey(name="fk_cidade_estado"))
     private Estado estado;
 
     public Cidade() {

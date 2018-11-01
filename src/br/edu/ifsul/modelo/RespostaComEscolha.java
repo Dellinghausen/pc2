@@ -33,6 +33,10 @@ public class RespostaComEscolha implements Serializable {
     @ManyToOne
     @JoinColumn(name = "dadosresposta_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_dadosresposta_id"))
     private DadosResposta dadosresposta;
+    @NotNull(message = "A resposta deve ser informado")
+    @ManyToOne
+    @JoinColumn(name = "opcaoresposta_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_opcaoresposta_id"))
+    private OpcaoResposta opcaoresposta;
 
     public RespostaComEscolha() {
     }
@@ -84,5 +88,13 @@ public class RespostaComEscolha implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public OpcaoResposta getOpcaoresposta() {
+        return opcaoresposta;
+    }
+
+    public void setOpcaoresposta(OpcaoResposta opcaoresposta) {
+        this.opcaoresposta = opcaoresposta;
     }
 }

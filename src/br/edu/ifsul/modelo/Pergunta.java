@@ -47,6 +47,9 @@ public class Pergunta implements Serializable {
     @ManyToOne
     @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_pergunta_categoria"))
     private Categoria categoria;
+    @NotNull(message = "Campo tipo não pode ser nulo")
+    @Column(name = "tipo", nullable = false)   
+    private Boolean tipo;
     @NotNull(message = "O questionario deve ser informado")
     @ManyToOne
     @JoinColumn(name = "questionario_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_questionario_id"))
@@ -132,11 +135,19 @@ public class Pergunta implements Serializable {
         this.questionario = questionario;
     }
 
-    public List<OpcaoResposta> getPossibilidadeResposta() {
+    public Boolean getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Boolean tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<OpcaoResposta> getOpcaoResposta() {
         return opcaoResposta;
     }
 
-    public void setPossibilidadeResposta(List<OpcaoResposta> opcaoResposta) {
+    public void setOpcaoResposta(List<OpcaoResposta> opcaoResposta) {
         this.opcaoResposta = opcaoResposta;
     }
 }

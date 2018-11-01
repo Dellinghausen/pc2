@@ -30,8 +30,8 @@ public class RespostaTexto implements Serializable {
     private Integer id;
     @NotNull(message = "A resposta não pode ser nulo")
     @NotBlank(message = "A resposta não pode ser em branco")
-    @Length(max = 40, message = "A resposta não pode ter mais que {max} caracteres")
-    @Column(name = "resposta", length = 40, nullable = false)
+    @Length(max = 500, message = "A resposta não pode ter mais que {max} caracteres")
+    @Column(name = "resposta", length = 500, nullable = false)
     private String resposta;
     @NotNull(message = "A pergunta deve ser informado")
     @ManyToOne
