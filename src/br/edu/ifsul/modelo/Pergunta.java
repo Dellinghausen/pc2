@@ -36,8 +36,8 @@ public class Pergunta implements Serializable {
     private Integer id;
     @NotNull(message = "O pergunta não pode ser nulo")
     @NotBlank(message = "O pergunta não pode ser em branco")
-    @Length(max = 40, message = "O pergunta não pode ter mais que {max} caracteres")
-    @Column(name = "pergunta", length = 40, nullable = false)
+    @Length(max = 200, message = "O pergunta não pode ter mais que {max} caracteres")
+    @Column(name = "pergunta", length = 200, nullable = false)
     private String pergunta;
     @Min(value = 1, message = "A quantidade de escolhas não pode ser menor do que 1.")
     @NotNull(message = "A quantidade de escolha deve ser informada")
