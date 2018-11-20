@@ -12,10 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
@@ -39,21 +42,25 @@ public class Pergunta implements Serializable {
     @Length(max = 200, message = "O pergunta não pode ter mais que {max} caracteres")
     @Column(name = "pergunta", length = 200, nullable = false)
     private String pergunta;
-    @Min(value = 1, message = "A quantidade de escolhas não pode ser menor do que 1.")
-    @NotNull(message = "A quantidade de escolha deve ser informada")
-    @Column(name = "quantidade_escolhas", nullable = false)
+//    @Min(value = 1, message = "A quantidade de escolhas não pode ser menor do que 1.")
+//    @NotNull(message = "A quantidade de escolha deve ser informada")
+    @Column(name = "quantidade_escolhas", nullable = true)
     private Integer quantidade_escolhas;
-    @NotNull(message = "A categoria deve ser informado")
+//    @NotNull(message = "A categoria deve ser informado")
     @ManyToOne
-    @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_pergunta_categoria"))
+    @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = true, foreignKey = @javax.persistence.ForeignKey(name = "fk_pergunta_categoria"))
     private Categoria categoria;
     @NotNull(message = "Campo tipo não pode ser nulo")
     @Column(name = "tipo", nullable = false)   
     private Boolean tipo;
-    @NotNull(message = "O questionario deve ser informado")
-    @ManyToOne
-    @JoinColumn(name = "questionario_id", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_questionario_id"))
-    private Questionario questionario;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "perguntas",
+            joinColumns = 
+            @JoinColumn(name = "perguntas", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = 
+            @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false), 
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"questionarios", "perguntas"})})
+    private List<Questionario> questionario = new ArrayList<>();
     @OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true,
             fetch = FetchType.LAZY)
     private List<OpcaoResposta> opcaoResposta = new ArrayList<>();
@@ -127,14 +134,6 @@ public class Pergunta implements Serializable {
         return true;
     }
 
-    public Questionario getQuestionario() {
-        return questionario;
-    }
-
-    public void setQuestionario(Questionario questionario) {
-        this.questionario = questionario;
-    }
-
     public Boolean getTipo() {
         return tipo;
     }
@@ -149,5 +148,13 @@ public class Pergunta implements Serializable {
 
     public void setOpcaoResposta(List<OpcaoResposta> opcaoResposta) {
         this.opcaoResposta = opcaoResposta;
+    }
+
+    public List<Questionario> getQuestionario() {
+        return questionario;
+    }
+
+    public void setQuestionario(List<Questionario> questionario) {
+        this.questionario = questionario;
     }
 }

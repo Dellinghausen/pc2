@@ -44,9 +44,15 @@ public class Questionario implements Serializable {
     @NotNull(message = "O usuario deve ser informado")
     @ManyToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_questionario_usuario"))
-    private Usuario usuario;    
-    @OneToMany(mappedBy = "questionario", cascade = CascadeType.ALL, orphanRemoval = true, 
-            fetch = FetchType.EAGER)
+    private Usuario usuario; 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "perguntas",
+            joinColumns
+            = @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns
+            = @JoinColumn(name = "perguntas", referencedColumnName = "id", nullable = false),
+            uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"questionarios", "perguntas"})})    
     private List<Pergunta> pergunta = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionarioaluno",
