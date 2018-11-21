@@ -44,26 +44,30 @@ public class Questionario implements Serializable {
     @NotNull(message = "O usuario deve ser informado")
     @ManyToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false, foreignKey = @javax.persistence.ForeignKey(name = "fk_questionario_usuario"))
-    private Usuario usuario; 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "perguntas",
-            joinColumns
-            = @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns
-            = @JoinColumn(name = "perguntas", referencedColumnName = "id", nullable = false),
-            uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"questionarios", "perguntas"})})    
+    private Usuario usuario;
+    @OneToMany(mappedBy = "questionario", cascade = CascadeType.ALL, orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<Pergunta> pergunta = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionarioaluno",
-            joinColumns = 
-            @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = 
-            @JoinColumn(name = "estudante", referencedColumnName = "id", nullable = false), 
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"estudante","questionarios"})}) 
+            joinColumns
+            = @JoinColumn(name = "questionarios", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns
+            = @JoinColumn(name = "estudante", referencedColumnName = "id", nullable = false),
+            uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"estudante", "questionarios"})})
     private List<Estudante> respondem = new ArrayList<>();
 
     public Questionario() {
+    }
+
+    public void adicionarPergunta(Pergunta obj) {
+        obj.setQuestionario(this);
+        this.pergunta.add(obj);
+    }
+
+    public void removerPergunta(int index) {
+        this.pergunta.remove(index);
     }
 
     public Integer getId() {
