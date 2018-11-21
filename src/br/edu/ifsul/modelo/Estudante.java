@@ -49,7 +49,7 @@ public class Estudante extends Usuario implements Serializable {
     @Length(max = 15, message = "O telefone de emergencia não pode ter mais que {max} caracteres")
     @Column(name = "telefoneEmergencia", nullable = false)
     private String telefoneEmergencia;
-    @CPF
+//    @CPF
     @NotBlank(message = "O cpf não pode ser em branco")
     @Length(max = 14, message = "O cpf não pode ter mais que {max} caracteres")
     @Column(name = "cpf", length = 14, nullable = false)
